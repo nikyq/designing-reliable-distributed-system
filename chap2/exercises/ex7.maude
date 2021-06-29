@@ -1,0 +1,12 @@
+sload ../hello_world.maude .
+
+fmod NAT-SQUARE is
+    protecting NAT-ADD .
+
+    op square : Nat -> Nat .
+
+    var M : Nat .
+    eq square(0) = 0 .
+    eq square(s(M)) = square(M) + M + M + s(0) .
+endfm
+    

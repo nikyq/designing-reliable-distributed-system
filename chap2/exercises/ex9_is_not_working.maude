@@ -1,3 +1,5 @@
+set include BOOL off .
+
 fmod NAT-ADD is
     sort Nat .
     op 0 : -> Nat [ctor] .
@@ -30,29 +32,3 @@ fmod BOOLEAN is
     eq f or B = B .
 endfm
 
-fmod NAT< is
-    protecting NAT-ADD .
-    protecting BOOLEAN .
-
-    op _<_ : Nat Nat -> Boolean .
-    vars M N : Nat .
-
-    eq 0 < s(M) = t .
-    eq M < 0 = f .
-    eq s(M) < s(N) = M < N .
-endfm
-    
---- fmod NAT-INF is
----     sort NatI .
----     op 0 : -> NatI [ctor] .
----     op s : NatI -> NatI [ctor] .
----     op _+_ : NatI NatI -> NatI .
----     op f : NatI NatI -> NatI .
---- 
----     vars M N : NatI .
---- 
----     --- Define the addition function recursively:
----     eq 0 + M = M .
----     eq s(M) + N = s(M + N) .
----     eq f(s(M), N) = f(M, M + N) + f(N, M) . 
---- endfm

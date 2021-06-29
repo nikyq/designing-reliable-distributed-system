@@ -1,0 +1,55 @@
+--- load ex9.maude
+load ../hello_world.maude
+
+fmod INT is
+    protecting BOOLEAN . 
+
+    sorts Zero NzNat NzNeg Nat Neg NzInt Int .
+
+    subsorts Zero < Nat Neg < Int .
+    subsort NzNat < Nat .
+    subsort NzNeg < Neg .
+    subsorts NzNat NzNeg < NzInt < Int .
+
+    op 0 : -> Zero [ctor] .
+    op s : Nat -> NzNat [ctor] .
+    op -_ : NzNat -> NzNeg [ctor prec 15] .
+    ops _+_ _-_ : Int Int -> Int [prec 33] .
+
+    op _/_ : Int NzInt -> Int .
+    op _*_ : Int Int -> Int .
+
+    op half : Int -> Int .
+    ops _monus_ diff max min : Nat Nat -> Nat .
+    ops odd even : Nat -> Boolean .
+    ops _<=_ _>_ _>=_ _==_ : Int Int -> Boolean .
+
+    vars M N : Nat .
+    var I : Int .
+    var NEG : Neg .
+    var NZNEG : NzNeg .
+    vars NZN NZN' : NzNat .
+
+    eq 0 + I = I .
+    eq s(M) + N = s(M + N) .
+
+    eq I - 0 = I .
+    eq 0 - NZN = - NZN .
+    eq s(M) - s(N) = M - N .
+
+    eq - NZN + (- NZN') = - (NZN + NZN') .
+    eq M + (- NZN) = M - NZN .
+    eq (- NZN) + N = N - NZN .
+
+    eq 0 - (- NZN) = NZN .
+    eq (- NZN) - (- NZN') = NZN' - NZN .
+    eq M - (- NZN) = M + NZN .
+    eq (- NZN) - N = - (NZN + N) .
+
+    eq NEG <= N = t .
+    eq (- NZN) <= (- NZN') = NZN' <= NZN .
+    eq N <= NZNEG = f .
+    eq s(M) <= s(N) = M <= N .
+    eq s(M) <= 0 = f .
+    
+endfm

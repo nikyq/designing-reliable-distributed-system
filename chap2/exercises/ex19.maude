@@ -1,0 +1,20 @@
+load ex13.maude
+
+fmod BINSEARCHTREE is
+    protecting BINTREE-NAT1 .
+
+    sort BinSearchTree .
+    subsort BinSearchTree < BinTree .
+
+    op insertSorted : BinSearchTree Nat -> BinSearchTree .
+
+    var BT : BinTree .
+    vars BST BST' : BinSearchTree .
+    var N N' : Nat .
+
+    cmb BT : BinSearchTree if isSearchTree(BT) = t .
+
+    eq insertSorted(empty, N) = bintree(empty, N, empty) .
+    ceq insertSorted(bintree(BST, N', BST'), N) = bintree(insertSorted(BST, N), N', BST') if N <= N' = t .
+    ceq insertSorted(bintree(BST, N', BST'), N) = bintree(BST, N', insertSorted(BST', N)) if N > N' = t .
+endfm

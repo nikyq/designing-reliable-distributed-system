@@ -1,0 +1,53 @@
+fmod Bits is
+    sort Bit .
+    sort Bits .
+
+    op 0 : -> Bit [ctor] .
+    op 1 : -> Bit [ctor] .
+
+    op _+_ : Bit Bit -> Bit .
+    op carry : Bit Bit -> Bit .
+
+    op nil : -> Bits [ctor] .
+    op __ : Bits Bit -> Bits [ctor] .
+
+    op neg : Bits -> Bits .
+    op carry : Bit Bit Bit -> Bit .
+    op bitSum : Bit Bit Bit -> Bit .
+
+    op add : Bits Bits Bit -> Bits .
+    op _+_ : Bits Bits -> Bits .
+
+    vars B B' B'' : Bit .
+    vars L L' L'' : Bits .
+
+    eq carry(0, 0, 0) = 0 .
+    eq carry(0, 0, 1) = 0 .
+    eq carry(0, 1, 0) = 0 .
+    eq carry(0, 1, 1) = 1 .
+    eq carry(1, 0, 0) = 0 .
+    eq carry(1, 0, 1) = 1 .
+    eq carry(1, 1, 0) = 1 .
+    eq carry(1, 1, 1) = 1 .
+
+    eq bitSum(0, 0, 0) = 0 .
+    eq bitSum(0, 0, 1) = 1 .
+    eq bitSum(0, 1, 0) = 1 .
+    eq bitSum(0, 1, 1) = 0 .
+    eq bitSum(1, 0, 0) = 1 .
+    eq bitSum(1, 0, 1) = 0 .
+    eq bitSum(1, 1, 0) = 0 .
+    eq bitSum(1, 1, 1) = 1 .
+
+    eq add(nil, nil, 0) = nil .
+    eq add(nil, nil, 1) = nil 1 .
+
+    eq add(L, nil, 0) = L .
+    eq add(L, nil, 1) = add(L, nil 1, 0) .
+    eq add(nil, L', B'') = add(L', nil, B'') .
+
+    eq add(L B, L' B', B'') = add(L, L', carry(B, B', B'')) bitSum(B, B', B'') .
+
+    eq L + L' = add(L, L', 0) .
+
+endfm

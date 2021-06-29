@@ -1,0 +1,70 @@
+load ex9.maude
+
+fmod LIST-NAT1 is
+    protecting NAT1 .
+    
+    sort List .
+
+    op nil : -> List [ctor] .
+    op __ : List Nat -> List [ctor] .
+    op length : List -> Nat .
+    op concat : List List -> List .
+    op insertFront : Nat List -> List .
+    ops first last : List -> Nat .
+    op empty? : List -> Boolean .
+    op rest : List -> List .
+    op reverse : List -> List .
+    op _occursIn_ : Nat List -> Boolean .
+    op remove : Nat List -> List .
+    op max : List -> Nat .
+    op isSorted : List -> Boolean .
+
+    vars N N' : Nat .
+    vars L L' : List .
+
+    eq length(nil) = 0 .
+    eq length(L N) = s(length(L)) .
+
+    eq concat(L, nil) = L .
+    eq concat(L, L' N) = concat(L, L') N .
+
+    eq first(nil) = 0 .
+    eq first(nil N) = N .
+    eq first(L N N') = first(L N) .
+
+    eq insertFront(N, nil) = nil N .
+    eq insertFront(N, L N') = insertFront(N, L) N' .
+
+    eq first(nil) = 0 .
+    eq first(nil N) = N .
+    eq first(L N) = first(L) .
+
+    eq last(nil) = 0 .
+    eq last(L N) = N .
+
+    eq empty?(nil) = t .
+    eq empty?(L N) = f .
+
+    eq rest(nil) = nil .
+    eq rest(nil N) = nil .
+    eq rest(L N) = rest(L) N .
+
+    eq reverse(nil) = nil .
+    eq reverse(L N) = concat(nil N, reverse(L)) .  *** inefficient tbf
+
+    eq N occursIn nil = f .
+    ceq N occursIn (L N') = t if N = N' .
+    eq N occursIn (L N') = N occursIn L .
+
+    eq remove(N, nil) = nil .
+    ceq remove(N, L N') = remove(N, L) if N = N' .
+    eq remove(N, L N') = remove(N, L) N' .
+
+    eq max(nil) = 0 .
+    eq max(nil N) = N .
+    eq max(L N) = max(max(L), N) .
+
+    eq isSorted(nil) = t .
+    eq isSorted(nil N) = t .
+    eq isSorted(L N N') = isSorted(L) and (N <= N') .
+endfm

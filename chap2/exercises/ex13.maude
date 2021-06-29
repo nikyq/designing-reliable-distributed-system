@@ -1,0 +1,38 @@
+load ex10.maude
+
+fmod BINTREE-NAT1 is
+    protecting LIST-NAT1 . 
+
+    sort BinTree .
+
+    op empty : -> BinTree [ctor] .
+    op bintree : BinTree Nat BinTree -> BinTree [ctor] .
+    ops preorder inorder postorder : BinTree -> List .
+
+    ops size weight : BinTree -> Nat .
+    op isSearchTree : BinTree -> Boolean .
+    op reverse : BinTree -> BinTree .
+
+    vars BT BT' : BinTree .
+    vars N N' : Nat .
+
+    eq preorder(empty) = nil .
+    eq preorder(bintree(BT, N, BT')) = insertFront(N, concat(preorder(BT), preorder(BT'))) .
+
+    eq inorder(empty) = nil .
+    eq inorder(bintree(BT, N, BT')) = concat(inorder(BT) N, inorder(BT')) .
+
+    eq postorder(empty) = nil .
+    eq postorder(bintree(BT, N, BT')) = concat(postorder(BT), postorder(BT')) N .
+
+    eq size(empty) = 0 .
+    eq size(bintree(BT, N, BT')) = s(size(BT) + size(BT')) .
+
+    eq weight(empty) = 0 .
+    eq weight(bintree(BT, N, BT')) = (weight(BT) + N) + weight(BT') .
+
+    eq isSearchTree(BT) = isSorted(preorder(BT)) .
+
+    eq reverse(empty) = empty .
+    eq reverse(bintree(BT, N, BT')) = bintree(reverse(BT'), N, reverse(BT)) .
+endfm

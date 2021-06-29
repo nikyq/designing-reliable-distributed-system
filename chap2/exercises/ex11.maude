@@ -1,0 +1,14 @@
+load ex10.maude
+
+fmod LIST-LEX is
+    protecting LIST-NAT1 .
+
+    op _greaterThan_ : List List -> Boolean .
+
+    vars L L' : List .
+    vars N N' : Nat .
+    
+    eq nil greaterThan nil = f .
+    eq (nil N) greaterThan nil = t .
+    eq (L N) greaterThan (L' N') = (L greaterThan L') or (N > N') .
+endfm

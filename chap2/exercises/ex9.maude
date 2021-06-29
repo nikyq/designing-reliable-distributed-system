@@ -1,0 +1,61 @@
+set include BOOL off .
+load ../hello_world.maude
+
+fmod NAT1 is
+    protecting NAT< .
+
+     op half : Nat -> Nat .
+     ops _monus_ diff max min : Nat Nat -> Nat .
+     ops odd even : Nat -> Boolean .
+     ops _<=_ _>_ _>=_ _==_ : Nat Nat -> Boolean .
+ 
+     vars M N : Nat .
+ 
+     ceq max(M, N) = N if M < N = t .
+     ceq max(M, N) = M if M < N = f .
+ 
+     eq half(0) = 0 .
+     eq half(s(0)) = 0 .
+     eq half(s(s(0))) = s(0) .
+     eq half(s(s(M))) = s(half(M)) .
+ 
+     eq 0 monus N = 0 .
+     eq M monus 0 = M .
+     eq s(M) monus s(N) = M monus N .
+ 
+     ceq diff(M, N) = N monus M if M < N = t .
+     ceq diff(M, N) = M monus N if M < N = f .
+ 
+     ceq min(M, N) = M if M < N = t .
+     ceq min(M, N) = N if M < N = f .
+ 
+     eq odd(M) = half(M) < half(s(M)) .
+     eq even(s(M)) = half(M) < half(s(M)) .
+ 
+     ceq M <= N = t if M < N = t .
+     ceq M <= N = t if diff(M, N) = 0 .
+     eq M <= N = f .
+ 
+     eq M > N = not (M <= N) .
+ 
+     eq M >= N = not (M < N) .
+ 
+     eq M == N = (M <= N) and (M >= N) .
+endfm
+
+fmod BOOLEAN1 is
+    protecting BOOLEAN .
+    op _implies_ : Boolean Boolean -> Boolean [prec 61] .
+    op if_then_else_fi : Boolean Boolean Boolean -> Boolean .
+
+    vars X Y Z : Boolean .
+    eq X implies Y = not X or Y .
+    eq if X then Y else Z fi = (X implies Y) and (not X implies Z) .
+endfm
+
+fmod NATBOOl is
+    protecting NAT1 .
+    protecting BOOLEAN . 
+endfm
+
+        
