@@ -1,0 +1,35 @@
+load tm.maude
+
+fmod TURING-AB is
+    protecting TURING .
+
+    ops a b : -> Symbol .
+
+    vars S S0 : Symbol .
+
+    *** (q, s, q', s', left)
+    *** eq S q s = q' S s' .
+    *** eq [ q s = [ q' blank s' .
+    *** (q, s, q', s', right)
+    *** eq q s S = s' q' S .
+    *** eq q s ] = s' q' blank ] .
+
+    eq q0 a S = a q2 S .
+    eq q0 a ] = a q2 blank ] .   
+
+    eq S q2 b = q4 S a .
+    eq [ q2 b = [ q4 blank a .
+    
+    eq q4 S0 S = S0 q2 S .
+    eq q4 S0 ] = S0 q2 blank ] .   
+
+    eq q0 b S = b q1 S .
+    eq q0 b ] = b q1 blank ] .   
+
+    eq S q1 S0 = q3 S S0 .
+    eq [ q1 S0 = [ q3 blank S0 .
+
+    eq q3 a S = b q1 S .
+    eq q3 a ] = b q1 blank ] .   
+
+endfm

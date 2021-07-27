@@ -1,0 +1,44 @@
+mod HANOI is
+    protecting NAT .
+
+    sorts Nats Rod Rods Puzzle . 
+
+    subsort NzNat < Nats .
+    subsort Rod < Rods .
+
+    op empty : -> Nats [ctor] .
+    op __ : Nats Nats -> Nats [ctor assoc id: empty] .
+
+    op rod_stack_ : NzNat Nats -> Rod [ctor] .
+
+    op empty : -> Rods [ctor] .
+    op __ : Rods Rods -> Rods [ctor assoc comm id: empty]  .
+
+    op hanoi : Rods -> Puzzle [ctor] .
+    op init : NzNat NzNat -> Puzzle .
+    op final : NzNat NzNat -> Puzzle .
+    op final' : NzNat NzNat NzNat -> Rods .
+
+    op until : NzNat -> Nats .
+
+    vars M M' N N' : NzNat .
+
+    vars L L' : Nats .
+    vars R R' : Rods .
+
+    eq until(1) = 1 .
+    eq until(N) = until(sd(N, 1)) N .
+
+    eq init(M, 1) = hanoi(rod 1 stack until(M)) .
+    ceq init(M, N) = hanoi(R (rod N stack empty)) if hanoi(R) := init(M, sd(N, 1)) .
+
+    eq final(M, N) = hanoi(final'(M, N, N)) .
+
+    eq final'(M, 1, N) = rod 1 stack empty .
+    eq final'(M, N, N) = final'(M, sd(N, 1), N) (rod N stack until(M)) .
+    ceq final'(M, N', N) = final'(M, sd(N', 1), N) (rod N' stack empty) if N' =/= N .
+
+    crl [move-top] : hanoi((rod M stack (N L)) (rod M' stack (N' L')) R) => hanoi((rod M stack L) (rod M' stack (N N' L')) R) if N < N' .
+    rl [move-top-to-empty] : hanoi((rod M stack (N L)) (rod M' stack empty) R) => hanoi((rod M stack L) (rod M' stack N) R) .
+
+endm

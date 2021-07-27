@@ -1,0 +1,11 @@
+load tm.maude
+
+fmod TURING-ALPHABET is
+    protecting TURING .
+
+    ops 1 odd even : -> Symbol [ctor] .
+
+    eq q0 1 = 1 q1 .
+    eq q1 1 = 1 q0 .
+
+endfm

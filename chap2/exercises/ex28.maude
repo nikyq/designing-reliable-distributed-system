@@ -1,0 +1,53 @@
+fmod STRING is
+    protecting BOOL .
+
+    sorts Letter String WildCard Char Pattern .
+
+    subsorts Letter < String < Pattern .
+    subsorts WildCard < Char < Pattern .
+    subsort Letter < Char .
+
+    ops a b c d e f g h i j k l m n o p q r s t u v w x y z : -> Letter [ctor] .
+    ops ? * : -> WildCard [ctor] .
+
+    op empty : -> String [ctor] .
+    op __ : String String -> String [assoc id: empty ctor] .
+    op __ : Pattern Pattern -> Pattern [assoc id: empty ctor] .
+
+    op isPal : String -> Bool .
+    op _prefixOf_ : String String -> Bool .
+    op _substringOf_ : String String -> Bool .
+
+    op _prefixOf_ : Pattern String -> Bool .
+    op _substringOf_ : Pattern String -> Bool .
+
+    vars L L' : Letter .
+    vars C C' : Char .
+    vars S S' : String .
+    vars P P' : Pattern .
+
+    eq isPal(empty) = true .
+    eq isPal(L) = true .
+    ceq isPal(L S L') = false if L =/= L' .
+    ceq isPal(L S L') = isPal(S) if L = L' .
+
+    eq empty prefixOf S' = true .
+    eq (L S) prefixOf empty = false .
+    ceq (L S) prefixOf (L' S') = false if L =/= L' .
+    ceq (L S) prefixOf (L' S') = S prefixOf S' if L = L' .
+
+    eq empty substringOf empty = true .
+    eq (L S) substringOf empty = false .
+    eq S substringOf (L' S') = (S prefixOf (L' S')) or (S substringOf S') .
+
+    eq empty prefixOf S' = true .
+    eq (C P) prefixOf empty = false .
+    ceq (C P) prefixOf (C' S') = false if C =/= C' /\ C =/= ? /\ C =/= * .
+    ceq (C P) prefixOf (C' S') = P prefixOf S' if C = C' .
+    ceq (C P) prefixOf (C' S') = P prefixOf S' if C = ? .
+    ceq (C P) prefixOf (C' S') = ((C P) prefixOf S') or (P prefixOf S') if C = * .
+
+    eq (C P) substringOf empty = false .
+    eq P substringOf (C' S') = (P prefixOf (C' S')) or (P substringOf S') .
+
+endfm

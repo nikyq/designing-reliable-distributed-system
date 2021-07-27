@@ -1,0 +1,9 @@
+fmod TURING is
+    sorts State Symbol Square Delimiter Tape .
+    ops q0 q1 q2 q3 q4 q5 q6 q7 q8 q9 : -> State [ctor] .
+    ops blank s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 : -> Symbol [ctor] .
+    ops [ ] : -> Delimiter [ctor] .
+    subsorts State Symbol < Square < Tape .
+    subsort Delimiter < Tape .
+    op __ : Tape Tape -> Tape [ctor assoc] .
+endfm

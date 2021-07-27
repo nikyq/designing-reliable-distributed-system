@@ -1,0 +1,32 @@
+load tm.maude
+
+fmod TURING-INTERPRET is
+    protecting TURING .
+
+    sorts Transition Direction .
+    sorts TuringMachine TMConfig DetTuringMachine .
+    subsorts Transition < DetTuringMachine < TuringMachine .
+
+    ops left right : -> Direction [ctor] .
+    op transition : State Symbol State Symbol Direction -> Transition [ctor] .
+    op config : Tape -> TMConfig [ctor] .
+
+    op none : -> DetTuringMachine [ctor] .
+    op _;_ : DetTuringMachine DetTuringMachine -> DetTuringMachine [ctor comm assoc id: none] .
+
+    op connect : TMConfig TMConfig -> TMConfig .
+    op interpret_once : DetTuringMachine TMConfig -> TMConfig .
+    op interpret : DetTuringMachine TMConfig -> TMConfig .
+
+    var TM : DetTuringMachine .
+    var CFG : TMConfig .
+    vars Q Q' Q'' : State .
+    vars S S' S'' : Symbol .
+    var C : Square .
+    var D : Direction .
+    var T : Tape .
+
+    *** eq interpret(transition(Q, S, Q', S', D), 
+endfm
+
+    

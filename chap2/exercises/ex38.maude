@@ -1,0 +1,21 @@
+load ex30.maude
+
+fmod UNBOUNDED-SUBSET-SUM is
+    protecting MSET-INT .
+
+    op uss : Mset Nat NzNat -> Bool .
+    op unboundedSubsetSum : Mset NzNat -> Bool .
+
+    vars S S' : Mset .
+    var N' : Nat .
+    vars N N'' : NzNat .
+
+    eq uss(none, N', N'') = false .
+    ceq uss(S, N', N'') = false if N' > N'' .
+    ceq uss(S, N', N'') = true if N' == N'' .
+    *** 지금 생각해 보니깐 그냥 다 N S로 넘겨도 될듯
+    ceq uss(N S, N', N'') = uss(S, N', N'') or uss(S, N + N', N'') or uss(N S, N + N', N'') if N' < N'' .
+    
+    eq unboundedSubsetSum(S, N) = uss(S, 0, N) .
+
+endfm

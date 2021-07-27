@@ -1,0 +1,15 @@
+mod COFFEE is
+    sorts Bean Beans .
+
+    subsort Bean < Beans . 
+
+    ops black white : -> Bean [ctor] .
+    op empty : -> Beans [ctor] .
+    op __ : Beans Beans -> Beans [ctor assoc id: empty] .
+
+    vars S S' : Beans .
+
+    rl [replacement] : S black black S' => S white S' .
+    rl [removal-left] : S white black S' => S black S' .
+    rl [removal-right] : S black white S' => S black S' .
+endm

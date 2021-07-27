@@ -1,0 +1,24 @@
+mod NATURAL-NUMBER-GAME is
+    protecting NAT .
+
+    sorts Numbers Whiteboard .
+    subsort NzNat < Numbers .
+
+    op empty : -> Numbers [ctor] .
+    op __ : NzNat Numbers -> Numbers [ctor comm assoc id: empty] . 
+
+    op whiteboard : Numbers -> Whiteboard [ctor] .
+
+    op until : NzNat -> Numbers .
+
+    vars N M : NzNat .
+    var L : Numbers .
+
+    eq until(1) = 1 .
+    eq until(N) = N until(sd(N, 1)) .
+
+    rl [divide-two] : whiteboard(M N L) => whiteboard(((M + N) quo 2) L) .
+    rl [replace-duplicate] : whiteboard(M M L) => whiteboard(until(sd(M, 1)) L) .
+    rl [add-mult-sum] : whiteboard(M N L) => whiteboard((M + N + (M * N)) L) .
+    
+endm

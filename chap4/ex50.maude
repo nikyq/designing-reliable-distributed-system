@@ -1,0 +1,20 @@
+fmod TURING-UNSORTED is
+    sort Tape .
+
+    op ] : -> Tape [ctor] .
+    ops q0_ q1_ s0_ s1_ blank_ : Tape -> Tape [ctor] .
+    op [_ : Tape -> Tape [ctor] .
+
+    var T : Tape .
+
+    --- (q0, s0, q1, s1, left)
+    eq s0 (q0 (s0 T)) = q1 (s0 (s1 T)) .
+    eq s1 (q0 (s0 T)) = q1 (s1 (s1 T)) .
+    eq [ (q0 (s0 T)) = [ (q1 (blank (s1 T))) .
+
+    --- (q1, s0, q0, s1, right)
+    eq q1 (s0 (s0 T)) = s1 (q0 (s0 T)) .
+    eq q1 (s0 (s1 T)) = s1 (q0 (s1 T)) .
+    eq q1 (s0 ]) = s1 (q0 (blank ])) .
+
+endfm

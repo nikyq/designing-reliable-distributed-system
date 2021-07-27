@@ -1,0 +1,18 @@
+mod SORT is
+    protecting NAT . --- 일종의 import
+
+    sort NatList .
+    subsort Nat < NatList .
+
+    op nil : -> NatList [ctor] .
+    op __ : NatList NatList -> NatList [ctor assoc id: nil] . --- ctor : 생성자, assoc : 결합, id : 항등원
+
+    op countdown : Nat -> NatList .
+    
+    vars A B : Nat .
+
+    eq countdown(1) = 1 .
+    eq countdown(A) = A countdown(sd(A, 1)) .
+
+    crl [swap] : B A => A B if A < B .
+endm

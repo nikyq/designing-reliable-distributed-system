@@ -1,0 +1,42 @@
+load ex26.maude
+
+fmod MID-PIVOT-QUICKSORT is
+    protecting LIST-INT .
+    protecting RAT .
+
+    op lt : Rat List -> List .
+    op eq : Rat List -> List .
+    op gt : Rat List -> List .
+
+    op pivot : List -> Int .
+    op quickSort : List -> List .
+
+    vars I I' : Int .
+    var R : Rat .
+    var L : List .
+    var NL : NeList .
+
+    eq lt(R, nil) = nil .
+    ceq lt(R, I' L) = I' lt(R, L) if I' < R .
+    ceq lt(R, I' L) = lt(R, L) if I' >= R .
+
+    eq eq(R, nil) = nil .
+    ceq eq(R, I' L) = I' eq(R, L) if I' == R .
+    ceq eq(R, I' L) = eq(R, L) if I' =/= R .
+
+    eq gt(R, nil) = nil .
+    ceq gt(R, I' L) = I' gt(R, L) if I' > R .
+    ceq gt(R, I' L) = gt(R, L) if I' <= R .
+
+    eq pivot(L) = (first(L) + last(L)) / 2 .
+
+    eq quickSort(nil) = nil .
+    eq quickSort(I) = I .
+    eq quickSort(NL) = quickSort(lt(pivot(NL), NL)) eq(pivot(NL), NL) quickSort(gt(pivot(NL), NL)) .
+
+endfm
+
+
+*** Terminate하는 이유 : pivot(L)은 L의 두 원소의 중간값으로, 따라서 L의 모든 원소가 pivot(L)보다 크거나 작을수는 없다.
+***                     이는 lt(pivot(NL), NL)이나 gt(pivot(NL), NL)이 NL보다 항상 길이가 더 짧음을 의미하며,
+***                     따라서 재귀 깊이가 깊어짐에 따라 리스트의 길이가 계속 감소하므로 언젠가는 종료하게 된다.

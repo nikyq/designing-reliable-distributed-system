@@ -1,0 +1,19 @@
+load ex26.maude
+
+fmod INSERTION-SORT is
+    protecting LIST-INT .
+
+    op insert : Int List -> List .
+    op insertionSort : List -> List .
+
+    vars I I' : Int .
+    var L : List .
+
+    eq insert(I, nil) = I .
+    ceq insert(I, I' L) = I' insert(I, L) if I >= I' .
+    ceq insert(I, I' L) = I I' L if I < I' .
+
+    eq insertionSort(nil) = nil .
+    eq insertionSort(I L) = insert(I, insertionSort(L)) .
+
+endfm

@@ -1,0 +1,84 @@
+fmod ROMAN is
+    protecting NAT .
+
+    sorts RomDigit RomNumber .
+
+    subsort RomDigit < RomNumber .
+
+    op I : -> RomDigit [ctor] .
+    op V : -> RomDigit [ctor] .
+    op X : -> RomDigit [ctor] .
+    op L : -> RomDigit [ctor] .
+    op C : -> RomDigit [ctor] .
+    op D : -> RomDigit [ctor] .
+    op M : -> RomDigit [ctor] .
+
+    op __ : RomNumber RomDigit -> RomNumber [ctor] .
+    op _++_ : RomNumber RomNumber -> RomNumber .
+
+    op popSingleDigitWith : Nat NzNat -> Nat .
+    op popSingleDigit : Nat -> Nat .
+    op hasSingleDigit : Nat -> Bool .
+
+    op firstDigit : Nat -> Nat .
+
+    op dissectRoman : NzNat -> RomNumber .
+
+    op decimalSingle : RomDigit -> NzNat .
+    op decimalWith : RomNumber NzNat Nat -> NzNat .
+
+    op roman : NzNat -> RomNumber .
+    op decimal : RomNumber -> NzNat .
+
+    vars R R' : RomDigit .
+    vars RN RN' : RomNumber .
+
+    var N : NzNat .
+    var N' : Nat .
+
+    eq popSingleDigitWith(0, N') = 0 .
+    ceq popSingleDigitWith(N, N') = N rem N' if N rem N' > 0 .
+    ceq popSingleDigitWith(N, N') = popSingleDigitWith(N, N' * 10) if N rem N' == 0 .
+
+    eq popSingleDigit(N) = popSingleDigitWith(N, 10) .
+    eq hasSingleDigit(N) = popSingleDigit(N) == N .
+
+    eq firstDigit(0) = 0 .
+    ceq firstDigit(N) = N if N < 10 .
+    ceq firstDigit(N) = firstDigit(N quo 10) if N >= 10 .
+
+    eq dissectRoman(1) = I .
+    eq dissectRoman(5) = V .
+    eq dissectRoman(10) = X .
+    eq dissectRoman(50) = L .
+    eq dissectRoman(100) = C .
+    eq dissectRoman(500) = D .
+    eq dissectRoman(1000) = M .
+
+    ceq dissectRoman(N) = dissectRoman(N quo firstDigit(N)) dissectRoman((N quo firstDigit(N)) * 5) if firstDigit(N) == 4 .
+    ceq dissectRoman(N) = dissectRoman(N quo firstDigit(N)) dissectRoman((N quo firstDigit(N)) * 10) if firstDigit(N) == 9 .
+    ceq dissectRoman(N) = dissectRoman(sd(N, N quo firstDigit(N))) dissectRoman(N quo firstDigit(N)) if ((firstDigit(N) > 1) and (firstDigit(N) < 4)) or ((firstDigit(N) > 5) and (firstDigit(N) < 9)) .
+
+    ceq roman(N) = dissectRoman(N) if hasSingleDigit(N) .
+    ceq roman(N) = roman(sd(N, popSingleDigit(N))) ++ roman(popSingleDigit(N)) if (not hasSingleDigit(N)) .
+
+    eq RN ++ R' = RN R' .
+    eq RN ++ (RN' R') = (RN ++ RN') R' .
+
+    eq decimalSingle(I) = 1 .
+    eq decimalSingle(V) = 5 .
+    eq decimalSingle(X) = 10 .
+    eq decimalSingle(L) = 50 .
+    eq decimalSingle(C) = 100 .
+    eq decimalSingle(D) = 500 .
+    eq decimalSingle(M) = 1000 .
+
+    ceq decimalWith(R, N, N') = sd(N', decimalSingle(R)) if decimalSingle(R) < N .
+    ceq decimalWith(R, N, N') = N' + decimalSingle(R) if decimalSingle(R) >= N .
+    
+    ceq decimalWith(RN R, N, N') = decimalWith(RN, N, sd(N', decimalSingle(R)))  if decimalSingle(R) < N .
+    ceq decimalWith(RN R, N, N') = decimalWith(RN, decimalSingle(R), N' + decimalSingle(R)) if decimalSingle(R) >= N .
+
+    eq decimal(RN) = decimalWith(RN, 1, 0) .
+
+endfm 

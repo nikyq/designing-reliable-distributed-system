@@ -1,0 +1,57 @@
+fmod TSP is
+    protecting NAT . 
+
+    sorts City Cities Cost .
+    subsort City < Cities .
+    subsort NzNat < Cost .
+
+    ops a b c d e f g h i j k l m n o p q r s t u v w x y z : -> City [ctor] .
+    op none : -> Cities [ctor] .
+    op _;_ : Cities Cities -> Cities [assoc comm id: none ctor] .
+    op _in_ : City Cities -> Bool .
+
+    op inf : -> Cost [ctor] .
+    op cost : City City -> Cost [comm] .
+
+    op ts : City Cities Cities NzNat Nat -> Bool .
+    op tss : City Cities Cities Cities NzNat Nat -> Bool .
+
+    op travelingSalesman : Cities NzNat -> Bool .
+    op travelingSalesmanDup : Cities NzNat -> Bool .
+
+    vars C C' : City .
+    vars L L' V : Cities .
+    var N : NzNat .
+    var S : Nat .
+
+    eq C in none = false .
+    eq C in (C ; L) = true .
+    ceq C in (C' ; L) = C in L if C =/= C' .
+
+    eq ts(C, none, none, N, S) = S <= N .
+    eq ts(C, C' ; L, none, N, S) = false .
+    ceq ts(C, L, C' ; L', N, S) = ts(C', none, L ; L', N, S + cost(C, C')) or ts(C, L ; C', L', N, S) if cost(C, C') =/= inf .
+    ceq ts(C, L, C' ; L', N, S) = ts(C, L ; C', L', N, S) if cost(C, C') = inf .
+
+    *** 맞는지 검증 못해 봄
+    ceq tss(C, L, L', V, N, S) = true if S <= N /\ V = (C ; L ; L') .
+    ceq tss(C, L, L', V, N, S) = false if S > N .
+    eq tss(C, C' ; L, none, V, N, S) = false .
+    ceq tss(C, L, C' ; L', V, N, S) = tss(C', none, C ; L ; L', V ; C', N, S + cost(C, C')) or tss(C, L ; C', L', V, N, S) if cost(C, C') =/= inf .
+    ceq tss(C, L, C' ; L', V, N, S) = tss(C, L ; C', L', V, N, S) if cost(C, C') = inf .
+
+    eq travelingSalesman(none, N) = true .
+    eq travelingSalesman(C ; L, N) = ts(C, none, L, N, 0) .
+    
+    eq travelingSalesmanDup(none, N) = true .
+    eq travelingSalesmanDup(C ; L, N) = tss(C, none, L, C, N, 0) .
+    
+    eq cost(a, b) = 20 .
+    eq cost(a, c) = 42 .
+    eq cost(a, d) = 35 .
+    eq cost(b, c) = 30 .
+    eq cost(b, d) = 34 .
+    eq cost(c, d) = 12 .
+    eq cost(C, C') = inf [owise] .
+
+endfm

@@ -1,0 +1,31 @@
+fmod EUROPIFY is
+    protecting STRING .
+
+    sort FindResultTuple .
+
+    vars S S' T1 T2 T3 T4 : String . 
+    var N : Nat .
+
+    op _,_ : String String -> FindResultTuple [ctor] .
+
+    op until : String String -> FindResultTuple .
+
+    op step1 : String -> String .
+    op step2 : FindResultTuple -> String .
+    op step3 : String FindResultTuple -> String .
+    op step4 : String String FindResultTuple -> String .
+    op arrange : String String String String -> String .
+
+    op europify : String -> String .
+
+    eq until(S, S') = substr(S, 0, find(S, S', 0)) , substr(S, find(S, S', 0) + length(S'), length(S)) .
+
+    eq step1(S) = step2(until(S, " ")) .
+    eq step2((T1 , S)) = step3(T1, until(S, " ")) .
+    eq step3(T1, (T2 , S)) = step4(T1, T2, until(S, " ")) .
+    eq step4(T1, T2, (T3 , T4)) = arrange(T1, T2, T3, T4) .
+    eq arrange(T1, T2, T3, T4) = T1 + " - " + T3 + " " + T2 + "-" + T4 .
+
+    eq europify(S) = step1(S) .
+    
+endfm

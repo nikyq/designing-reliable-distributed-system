@@ -1,0 +1,29 @@
+fmod STRINGLIST is
+    protecting STRING .
+
+    sorts StringList Set-StringList .
+
+    subsorts String < StringList < Set-StringList .
+
+    op none : -> StringList [ctor] .
+    op _:_ : StringList StringList -> StringList [assoc id: none ctor] .
+
+    op none : -> Set-StringList [ctor] .
+    op __ : Set-StringList Set-StringList -> Set-StringList  [comm assoc id: none ctor] .
+
+    op perm : StringList -> Set-StringList .
+    op p : StringList StringList StringList -> Set-StringList .
+
+    vars S S' : String .
+    vars SL SL' SL'' : StringList .
+
+    eq perm(none) = none .
+    eq perm(S) = S .
+    eq perm(S : SL) = p(none, none, S : SL) .
+
+    eq p(SL, none, none) = SL .
+    eq p(SL, none, S) = SL : S .
+    eq p(SL, S : SL', none) = none .
+    eq p(SL, SL', S : SL'') = p(SL : S, none, SL' : SL'') p(SL, SL' : S, SL'') .
+
+endfm

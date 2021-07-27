@@ -1,0 +1,13 @@
+fmod MSET-OBJMSG is
+    sorts Obj Msg .
+    sort Mset-ObjMsg .
+    
+    subsorts Obj Msg < Mset-ObjMsg . 
+
+    op O : -> Obj [ctor] .
+    op M : -> Msg [ctor] .
+
+    op none : -> Mset-ObjMsg [ctor] .
+    op __ : Mset-ObjMsg Mset-ObjMsg -> Mset-ObjMsg [ctor assoc comm id: none] .
+
+endfm

@@ -1,0 +1,46 @@
+fmod LIST-INT is
+    protecting INT .
+
+    sorts List NeList .
+    subsorts Int < NeList < List .
+
+    op nil : -> List [ctor] .
+    op __ : List List -> List [assoc id: nil ctor] .
+    op __ : NeList NeList -> NeList [assoc id: nil ctor] .
+
+    op length : List -> Nat .
+    ops first last : NeList -> Int .
+    op rest : NeList -> List .
+    op empty? : List -> Bool .
+    op reverse : List -> List .
+    op max : NeList -> Int .
+    op isSorted : List -> Bool .
+    op _occursIn_ : Int List -> Bool .
+
+    vars I J : Int .
+    var L : List .
+
+    eq length(nil) = 0 .
+    eq length(I L) = 1 + length(L) .
+
+    eq first(I L) =  I .
+    eq last(L I) = I .
+
+    eq I occursIn nil = false .
+    eq I occursIn J L = (I == J) or (I occursIn L) .
+    
+    eq empty?(nil) = true .
+    eq empty?(I L) = false .
+
+    eq rest(I L) = L .
+
+    eq reverse(nil) = nil .
+    eq reverse(I L) = reverse(L) I .
+
+    eq max(I L) = max(I, max(L)) .
+
+    eq isSorted(nil) = true .
+    eq isSorted(I) = true .
+    eq isSorted(I J L) = (I <= J) and isSorted(J L) .
+
+endfm

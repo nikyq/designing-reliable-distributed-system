@@ -1,0 +1,24 @@
+load tm.maude
+
+fmod TURING-BIN is
+    protecting TURING .
+
+    ops 0 1 : -> Symbol [ctor] .
+
+    vars Q Q0 Q1 Q2 Q3 Q4 Q5 Q6 Q7 Q8 Q9 : State .
+    vars S S0 S1 S2 S3 S4 S5 S6 S7 S8 S9 : Symbol .
+
+    *** q4 : 진짜 시작, q0 : 받아올림 없음, q1 : 받아올림 있음 & 초기 상태
+
+    eq q4 S = S q4 .
+    eq S q4 ] = q1 S ] .
+    eq [ q4 ] = [ q0 ] .
+
+    eq S0 q1 0 = q0 S0 1 .
+    eq S0 q1 1 = q1 S0 0 .
+    eq S0 q1 blank = q0 S0 1 .
+
+    eq [ q1 0 = [ q0 blank 1 .
+    eq [ q1 1 = [ q0 1 0 .
+    eq [ q1 blank = [ q0 blank 1 .
+endfm

@@ -1,0 +1,29 @@
+load ex26.maude
+
+fmod LIST1 is
+    protecting LIST-INT .
+
+    op cBI : Int Int Bool List -> Bool .
+    op comesBeforeIn : Int Int List -> Bool .
+    op _>lex_ : List List -> Bool .
+
+    vars I I' J J' : Int .
+    vars L L' : List .
+    var B : Bool .
+
+    eq cBI(I, J, B, nil) = false .
+
+    ceq cBI(I, J, B, I' L) = cBI(I, J, true, L) if I = I' .
+    ceq cBI(I, J, B, I' L) = cBI(I, J, B, L) if (I =/= I') /\ (J =/= I') .
+    ceq cBI(I, J, true, J' L) = true if J = J' .
+    ceq cBI(I, J, false, J' L) = false if J = J' .
+
+    eq comesBeforeIn(I, J, L) = cBI(I, J, false, L) .
+
+    eq nil >lex nil = false .
+    eq I L >lex nil = true .
+    eq nil >lex J L' = false .
+
+    eq I L >lex J L' = (I > J) or ((I == J) and L >lex L') .
+
+endfm

@@ -1,0 +1,35 @@
+fmod INTSET is
+    protecting INT .
+
+    sort Set .
+    subsort Int < Set .
+
+    op none : -> Set [ctor] .
+    op __ : Set Set -> Set [ctor assoc comm id: none] .
+
+    op _in_ : Int Set -> Bool .
+    op delete : Int Set -> Set .
+    op card : Set -> Int .
+    op _setMinus_ : Set Set -> Set .
+    op intersect : Set Set -> Set . 
+
+    vars I I' : Int .
+    vars S S' : Set .
+
+    ceq I in (I' S) = I in S if I =/= I' .
+    eq I in (I S) = true .
+    eq I in none = false .
+    
+    ceq delete(I, S) = S if not (I in S) .
+    eq delete(I, I S) = delete(I, S) .
+
+    eq card(none) = 0 .
+    eq card(I S) = 1 + card(delete(I, S)) .
+
+    eq S setMinus none = S .
+    eq S setMinus (I S') = delete(I, S) setMinus S' .
+
+    eq intersect(I S, I S') = intersect(delete(I, S), delete(I, S')) I .
+    ceq intersect(S, S') = none if S setMinus S' = S /\ S' setMinus S = S' .
+
+endfm

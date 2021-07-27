@@ -1,0 +1,17 @@
+fmod SHORT-CIRCUIT is
+    protecting BOOL .
+
+    op _and-then_ : Bool Bool -> Bool [strat (1 0 2)] .
+    op _or-else_ : Bool Bool -> Bool [strat (1 0 2)] .
+
+    vars B B' : Bool .
+
+    eq false and-then B' = false .
+    eq true and-then true = true .
+    eq true and-then false = false .
+
+    eq true or-else B' = true .
+    eq false or-else false = false .
+    eq false or-else true = true .
+    
+endfm

@@ -1,0 +1,26 @@
+fmod GRAPH is
+    sort NodeId .
+    sort NodeIdSet .
+    subsort NodeId < NodeIdSet .
+
+    ops a b c d e f g h i j k l m n o p q r s t u v w x y z : -> NodeId [ctor] .
+    op none : -> NodeIdSet [ctor] .
+    op __ : NodeIdSet NodeIdSet -> NodeIdSet [ctor assoc comm id: none] .
+    
+    sort Node .
+    op node:_nbs:_ : NodeId NodeIdSet -> Node [ctor] .
+
+    sort Graph .
+    subsort Node < Graph .
+
+    op emptyGraph : -> Graph [ctor] .
+    op _;_ : Graph Graph -> Graph [ctor assoc comm id: emptyGraph] .
+endfm
+
+fmod CLIQUE is
+    protecting GRAPH .
+
+    op clique : Graph NzNat -> Bool .
+
+    
+endfm

@@ -1,0 +1,16 @@
+fmod PRIME is
+    protecting NAT .
+
+    op isPrime : NzNat -> Bool .
+    op primeCheck : NzNat NzNat -> Bool .
+
+    vars N N' : NzNat .
+
+    eq primeCheck(N, 1) = true .
+    ceq primeCheck(N, s N') = primeCheck(N, N') if N rem (s N') > 0 .
+    ceq primeCheck(N, N') = false if N rem N' = 0 .
+
+    eq isPrime(1) = false .
+    eq isPrime(s N) = primeCheck(s N, N) .
+
+endfm

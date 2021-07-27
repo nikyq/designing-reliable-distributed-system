@@ -1,0 +1,11 @@
+fmod CONVERT-BIN is
+    protecting NAT .
+
+    op binary : Nat -> Nat .
+
+    var N : Nat . 
+
+    eq binary(0) = 0 .
+    eq binary(1) = 1 .
+    ceq binary(N) = (10 * binary(N quo 2)) + (N rem 2) if N > 1 .
+endfm
